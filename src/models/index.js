@@ -45,6 +45,7 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+logger.info(util.inspect(sequelize, { showHidden: false, depth: null }));
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
