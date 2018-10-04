@@ -8,6 +8,7 @@ const helmet = require('helmet');
 const methodOverride = require('method-override');
 const routes = require('./routes');
 const logger = require('./utils/logger');
+const constants = require('./utils/constants');
 
 // Logging
 app.use(morgan('combined', { stream: logger.stream }));
@@ -15,8 +16,9 @@ app.use(methodOverride());
 // Helmet security
 app.use(helmet());
 // Parse request bodies
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
-  extended: true
+  extended: false
 }));
 // Register routes
 app.use('/', routes);
