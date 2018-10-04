@@ -11,7 +11,7 @@
     "npm": ">=6"
   },
   "scripts": {
-    "start": "nodemon src/server.js",
+    "start": "node src/server.js",
     "test": "mocha test/"
   },
   "repository": {
