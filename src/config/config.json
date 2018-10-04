@@ -1,5 +1,8 @@
 {
   "development": {
+    "cloud_db_env_variable": "local_config"
+  },
+  "dev:localdb": {
     "username": "adi",
     "password": null,
     "database": "orgs_dev",
@@ -14,10 +17,6 @@
     "dialect": "postgres"
   },
   "production": {
-    "username": "root",
-    "password": null,
-    "database": "orgs_prod",
-    "host": "127.0.0.1",
-    "dialect": "postgres"
+    "cloud_db_env_variable": "adi-cloud-creds"
   }
 }
