@@ -17,11 +17,14 @@ if (config.cloud_db_env_variable && config.cloud_db_env_variable === process.env
   const cloudCreds = appEnv.getService(config.cloud_db_env_variable).credentials;
 
   const url = 'postgres://' + cloudCreds.username + ':' + cloudCreds.password + '@' + cloudCreds.cloud_sql_server + ':' + '5432' + '/' + cloudCreds.username;
-  sequelize = new Sequelize(url);
-} else if (config.cloud_db_env_variable === 'local_config') {
+  sequelize = new Sequelize(url, {
+    dialect: 'postgres'
+  });
+} else if (env === 'development') {
   const localCreds = require('../config/local.config.json').credentials;
 
-  sequelize = new Sequelize(localCreds.cloud_sql_server, localCreds.username, localCreds.password, {
+  const url = 'postgres://' + localCreds.username + ':' + localCreds.password + '@' + localCreds.cloud_sql_server + ':' + '5432' + '/' + localCreds.username;
+  sequelize = new Sequelize(url, {
     dialect: 'postgres'
   });
 } else {
@@ -44,7 +47,6 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-logger.info(util.inspect('sequelize:', sequelize, { showHidden: false, depth: 2 }));
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
