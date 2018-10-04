@@ -7,11 +7,12 @@
     "test": "test"
   },
   "engines": {
-    "node": ">=8",
+    "node": ">=10",
     "npm": ">=6"
   },
   "scripts": {
-    "start": "nodemon src/server.js",
+    "start": "node src/server.js",
+    "start:local": "NODE_ENV='dev:localdb'; node src/server.js",
     "test": "mocha test/"
   },
   "repository": {
@@ -26,17 +27,19 @@
   "homepage": "https://github.com/AdiedX/org-manager-svc#readme",
   "dependencies": {
     "body-parser": "^1.18.3",
+    "cfenv": "^1.1.0",
     "express": "^4.16.3",
     "helmet": "^3.13.0",
     "js-yaml": "^3.12.0",
     "method-override": "^3.0.0",
     "morgan": "^1.9.1",
     "nodemon": "^1.18.4",
-    "pg": "^7.4.3",
+    "pg": "^7.5.0",
     "pg-hstore": "^2.3.2",
     "predix-fast-token": "^1.3.1",
     "predix-uaa-client": "^1.3.6",
     "sequelize": "^4.39.0",
+    "sequelize-cli": "^4.1.1",
     "swagger-ui-express": "^4.0.1",
     "winston": "^2.4.4"
   }

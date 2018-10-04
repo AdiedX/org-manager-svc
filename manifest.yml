@@ -1,0 +1,11 @@
+---
+applications:
+  - name: org-manager-svc
+    memory: 64M
+    buildpack: https://github.com/cloudfoundry/nodejs-buildpack
+    disk_quota: 512M
+    instances: 1
+services:
+  - adi-cloud-creds
+env:
+  CLOUD_CREDS: adi-cloud-creds
