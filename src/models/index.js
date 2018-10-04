@@ -13,20 +13,19 @@ const appEnv = cfenv.getAppEnv();
 const logger = require('../utils/logger');
 
 let sequelize;
-if (config.cloud_db_env_variable === process.env.CLOUD_CREDS) {
+if (config.cloud_db_env_variable && config.cloud_db_env_variable === process.env.CLOUD_CREDS) {
   const cloudCreds = appEnv.getService(config.cloud_db_env_variable).credentials;
-  logger.info(util.inspect(cloudCreds, { showHidden: false, depth: null }));
-  sequelize = new Sequelize(cloudCreds.cloud_sql_server, cloudCreds.username, cloudCreds.password, {
-    dialect: 'postgres'
-  });
+
+  const url = 'postgres://' + cloudCreds.username + ':' + cloudCreds.password + '@' + cloudCreds.cloud_sql_server + ':' + '5432' + '/' + cloudCreds.username;
+  sequelize = new Sequelize(url);
 } else if (config.cloud_db_env_variable === 'local_config') {
   const localCreds = require('../config/local.config.json').credentials;
-  logger.info(util.inspect(localCreds, { showHidden: false, depth: null }));
+
   sequelize = new Sequelize(localCreds.cloud_sql_server, localCreds.username, localCreds.password, {
     dialect: 'postgres'
   });
 } else {
-  sequelize = new Sequelize(config.database, config.username, config.password, config);
+  sequelize = new Sequelize(config.username, config.username, config.password, config);
 }
 
 fs
@@ -45,7 +44,7 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-logger.info(util.inspect(sequelize, { showHidden: false, depth: null }));
+logger.info(util.inspect('sequelize:', sequelize, { showHidden: false, depth: 2 }));
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

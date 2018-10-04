@@ -1,8 +1,5 @@
 {
   "development": {
-    "cloud_db_env_variable": "local_config"
-  },
-  "dev:localdb": {
     "username": "adi",
     "password": null,
     "database": "orgs_dev",
