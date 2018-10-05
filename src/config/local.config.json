@@ -1,14 +1,11 @@
 {
   "credentials": {
-    "host": "baasu.db.elephantsql.com",
-    "password": "2KnXu1L41JzmRYSfiTtwRvukX_TDwAGM",
-    "username": "wmqlvxkc",
-    "database": "wmqlvxkc",
+    "host": "",
+    "password": "",
+    "username": "",
+    "database": "",
     "port": 5432,
-    "AUTH_DOMAIN": "https://adi-auth-server-eee2fw3f.auth0.com",
-    "AUTH_AUDIENCE": "https://org-manager-svc.herokuapp.com/"
-  },
-  "instance_name": "adi-cloud-creds",
-  "label": "user-provided",
-  "name": "adi-cloud-creds"
+    "AUTH_DOMAIN": "",
+    "AUTH_AUDIENCE": ""
+  }
 }
