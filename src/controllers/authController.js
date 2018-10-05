@@ -1,16 +1,11 @@
 'use strict';
 
 const jwt = require('express-jwt');
-const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
-const localCreds = require('../config/local.config.json').credentials;
 const logger = require('../utils/logger');
 /**
  * Authorization middleware
  */
-
-logger.info('issuer:', process.env.AUTH_DOMAIN);
-logger.info('audience:', process.env.AUTH_AUDIENCE);
 
 module.exports = {
   verifyToken: function() {
