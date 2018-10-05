@@ -1,8 +1,10 @@
 {
   "credentials": {
-    "cloud_sql_server": "baasu.db.elephantsql.com",
+    "host": "baasu.db.elephantsql.com",
     "password": "2KnXu1L41JzmRYSfiTtwRvukX_TDwAGM",
-    "username": "wmqlvxkc"
+    "username": "wmqlvxkc",
+    "database": "wmqlvxkc",
+    "port": 5432
   },
   "instance_name": "adi-cloud-creds",
   "label": "user-provided",

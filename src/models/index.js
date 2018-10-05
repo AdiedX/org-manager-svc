@@ -6,30 +6,15 @@ const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
 const env = process.env.NODE_ENV || 'development';
-const config = require(__dirname + '/../config/config.json')[env];
+const config = require(__dirname + '/../config/config')[env];
 const db = {};
 const cfenv = require('cfenv');
 const appEnv = cfenv.getAppEnv();
 const logger = require('../utils/logger');
 
-let sequelize;
-if (config.cloud_db_env_variable && config.cloud_db_env_variable === process.env.CLOUD_CREDS) {
-  const cloudCreds = appEnv.getService(config.cloud_db_env_variable).credentials;
+let sequelize = new Sequelize(config.database, config.username, config.password, config);
 
-  const url = 'postgres://' + cloudCreds.username + ':' + cloudCreds.password + '@' + cloudCreds.cloud_sql_server + ':' + '5432' + '/' + cloudCreds.username;
-  sequelize = new Sequelize(url, {
-    dialect: 'postgres'
-  });
-} else if (env === 'development') {
-  const localCreds = require('../config/local.config.json').credentials;
-
-  const url = 'postgres://' + localCreds.username + ':' + localCreds.password + '@' + localCreds.cloud_sql_server + ':' + '5432' + '/' + localCreds.username;
-  sequelize = new Sequelize(url, {
-    dialect: 'postgres'
-  });
-} else {
-  sequelize = new Sequelize(config.username, config.username, config.password, config);
-}
+console.log('env', env);
 
 fs
   .readdirSync(__dirname)
@@ -47,6 +32,8 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
+console.log('sequelize', sequelize);
+sequelize.close;
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 
