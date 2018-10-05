@@ -13,36 +13,32 @@ const cfenv = require('cfenv');
 const appEnv = cfenv.getAppEnv();
 const db = require('./models/index');
 
-async function execute(app) {
-  const pool = db.sequelize.connectionManager.pool; await pool.drain(); await pool.clear();
-  // Logging
-  app.use(morgan('combined', { stream: logger.stream }));
+// Logging
+app.use(morgan('combined', { stream: logger.stream }));
 
-  app.use(methodOverride());
+app.use(methodOverride());
 
-  // Helmet security
-  app.use(helmet());
+// Helmet security
+app.use(helmet());
 
-  // Parse request bodies
-  app.use(bodyParser.json());
+// Parse request bodies
+app.use(bodyParser.json());
 
-  app.use(bodyParser.urlencoded({
-    extended: false
-  }));
+app.use(bodyParser.urlencoded({
+  extended: false
+}));
 
-  // Register routes
-  app.use('/', routes);
-  // Error handling
-  app.use(function(err, req, res, next) {
-    if (err) {
-      logger.error(err.stack);
-      res.status(500).json(err.message);
-    }
-  });
+// Register routes
+app.use('/', routes);
+// Error handling
+app.use(function(err, req, res, next) {
+  if (err) {
+    logger.error(err.stack);
+    res.status(500).json(err.message);
+  }
+});
 
-  const port = process.env.PORT || 3000;
-  app.listen(port, () => logger.info(`Listening on port ${port}`));
-}
+const port = process.env.PORT || 3000;
+app.listen(port, () => logger.info(`Listening on port ${port}`));
 
-execute(app);
 
