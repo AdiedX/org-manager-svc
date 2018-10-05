@@ -1,9 +1,7 @@
 'use strict';
 
 const jwt = require('express-jwt');
-const jwtAuthz = require('express-jwt-authz');
 const jwksRsa = require('jwks-rsa');
-const localCreds = require('../config/local.config.json').credentials;
 const logger = require('../utils/logger');
 /**
  * Authorization middleware

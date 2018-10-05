@@ -3,6 +3,14 @@
 const localCreds = require('./local.config.json').credentials;
 
 module.exports = {
+  local: {
+    username: "adi",
+    password: null,
+    database: "orgs_dev",
+    host: "127.0.0.1",
+    port: 5432,
+    dialect: "postgres"
+  },
   development: {
     username: localCreds.username,
     password: localCreds.password,

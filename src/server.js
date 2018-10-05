@@ -8,10 +8,6 @@ const helmet = require('helmet');
 const methodOverride = require('method-override');
 const routes = require('./routes');
 const logger = require('./utils/logger');
-const util = require('util');
-const cfenv = require('cfenv');
-const appEnv = cfenv.getAppEnv();
-const db = require('./models/index');
 
 // Logging
 app.use(morgan('combined', { stream: logger.stream }));
@@ -40,5 +36,3 @@ app.use(function(err, req, res, next) {
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => logger.info(`Listening on port ${port}`));
-
-

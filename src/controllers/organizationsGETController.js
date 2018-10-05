@@ -9,7 +9,12 @@ module.exports = {
     let org;
     try {
       org = await DAO.fetchOrg({ name: name });
-      return res.status(200).json(org);
+
+      if (org !== null) {
+        return res.status(200).json(org);
+      } else {
+        return res.status(500).json({ message: 'Org with that name does not exist' });
+      }
     } catch (error) {
       logger.error(error.message);
       return res.status(500).json({ error: 'Could not fetch org' });
@@ -22,7 +27,12 @@ module.exports = {
     let org;
     try {
       org = await DAO.fetchOrg({ code: code });
-      return res.status(200).json(org);
+
+      if (org !== null) {
+        return res.status(200).json(org);
+      } else {
+        return res.status(500).json({ message: 'Org with that code does not exist' });  
+      }
     } catch (error) {
       logger.error(error.message);
       return res.status(500).json({ error: 'Could not fetch org' });
@@ -32,7 +42,11 @@ module.exports = {
   getAllOrgs: async function(req, res) {
     try {
       const orgs = await DAO.fetchAllOrgs();
-      return res.status(200).json(orgs);
+      if (orgs.length) {
+        return res.status(200).json(orgs);
+      } else {
+        return res.status(404).json({ message: 'No orgs found' });
+      }
     } catch (error) {
       logger.error(error.message);
       return res.status(500).json({ error: 'Could not fetch orgs' });

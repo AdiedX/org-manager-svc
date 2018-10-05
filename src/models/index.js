@@ -13,9 +13,6 @@ const logger = require('../utils/logger');
 
 let sequelize;
 if (env === 'production') {
-  // const cloudCreds = appEnv.getService(config.cloud_db_env_variable).credentials;
-  // const url = 'postgres://' + cloudCreds.username + ':' + cloudCreds.password + '@' + cloudCreds.cloud_sql_server + ':' + '5432' + '/' + cloudCreds.username;
-  logger.info(process.env);
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 } else if (env === 'development') {
   const localCreds = require('../config/local.config.json').credentials;
@@ -24,8 +21,7 @@ if (env === 'production') {
   sequelize = new Sequelize(url, {
     dialect: 'postgres'
   });
-}
-else {
+} else {
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 }
 

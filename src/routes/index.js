@@ -3,22 +3,26 @@
 const router = require('express').Router();
 const constants = require('../utils/constants');
 const authController = require('../controllers/authController');
+const validationController = require('../controllers/validationController');
 const organizationsGETController = require('../controllers/organizationsGETController');
 const organizationPOSTController = require('../controllers/organizationPOSTController');
 const organizationPUTController = require('../controllers/organizationPUTController');
 const organizationDELETEController = require('../controllers/organizationDELETEController');
 
-// router.all('*', authController.verifyToken);
+// Secure all endpoints
+router.all('*', authController.verifyToken());
 
 /**
  * HTTP POST
+ * Save a new org
  */
-router.post(constants.API_PATH + 'organizations', organizationPOSTController.postOrg);
+router.post(constants.API_PATH + 'organizations', validationController.validateRequestBodyParams, organizationPOSTController.postOrg);
 
 /**
  * HTTP PUT
+ * Update an org
  */
-router.put(constants.API_PATH + 'organizations/c/:code', organizationPUTController.updateOrg);
+router.put(constants.API_PATH + 'organizations/c/:code', validationController.validateRequestBodyParams, organizationPUTController.updateOrg);
 
 /**
  * HTTP GET
