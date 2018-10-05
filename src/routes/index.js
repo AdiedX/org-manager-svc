@@ -2,10 +2,13 @@
 
 const router = require('express').Router();
 const constants = require('../utils/constants');
+const authController = require('../controllers/authController');
 const organizationsGETController = require('../controllers/organizationsGETController');
 const organizationPOSTController = require('../controllers/organizationPOSTController');
 const organizationPUTController = require('../controllers/organizationPUTController');
 const organizationDELETEController = require('../controllers/organizationDELETEController');
+
+// router.all('*', authController.verifyToken);
 
 /**
  * HTTP POST
@@ -21,7 +24,7 @@ router.put(constants.API_PATH + 'organizations/c/:code', organizationPUTControll
  * HTTP GET
  * Get all orgs
  */
-router.get(constants.API_PATH + 'organizations', organizationsGETController.getAllOrgs);
+router.get(constants.API_PATH + 'organizations', authController.verifyToken(), organizationsGETController.getAllOrgs);
 
 /**
  * HTTP GET
