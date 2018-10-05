@@ -1,7 +1,6 @@
 'use strict';
 
 const fs = require('fs');
-const util = require('util');
 const path = require('path');
 const Sequelize = require('sequelize');
 const basename = path.basename(__filename);
@@ -12,9 +11,23 @@ const cfenv = require('cfenv');
 const appEnv = cfenv.getAppEnv();
 const logger = require('../utils/logger');
 
-let sequelize = new Sequelize(config.database, config.username, config.password, config);
+let sequelize;
+if (env === 'production') {
+  // const cloudCreds = appEnv.getService(config.cloud_db_env_variable).credentials;
+  // const url = 'postgres://' + cloudCreds.username + ':' + cloudCreds.password + '@' + cloudCreds.cloud_sql_server + ':' + '5432' + '/' + cloudCreds.username;
+  logger.info(process.env);
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
+} else if (env === 'development') {
+  const localCreds = require('../config/local.config.json').credentials;
 
-console.log('env', env);
+  const url = 'postgres://' + localCreds.username + ':' + localCreds.password + '@' + localCreds.host + ':' + '5432' + '/' + localCreds.database;
+  sequelize = new Sequelize(url, {
+    dialect: 'postgres'
+  });
+}
+else {
+  sequelize = new Sequelize(config.database, config.username, config.password, config);
+}
 
 fs
   .readdirSync(__dirname)
@@ -32,8 +45,6 @@ Object.keys(db).forEach(modelName => {
   }
 });
 
-console.log('sequelize', sequelize);
-sequelize.close;
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
 

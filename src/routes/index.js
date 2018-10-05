@@ -8,7 +8,7 @@ const organizationPOSTController = require('../controllers/organizationPOSTContr
 const organizationPUTController = require('../controllers/organizationPUTController');
 const organizationDELETEController = require('../controllers/organizationDELETEController');
 
-router.all('*', authController.verifyToken);
+// router.all('*', authController.verifyToken);
 
 /**
  * HTTP POST
@@ -24,7 +24,7 @@ router.put(constants.API_PATH + 'organizations/c/:code', organizationPUTControll
  * HTTP GET
  * Get all orgs
  */
-router.get(constants.API_PATH + 'organizations', organizationsGETController.getAllOrgs);
+router.get(constants.API_PATH + 'organizations', authController.verifyToken(), organizationsGETController.getAllOrgs);
 
 /**
  * HTTP GET
