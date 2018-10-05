@@ -6,7 +6,6 @@ const logger = require('../utils/logger');
 /**
  * Authorization middleware
  */
-
 module.exports = {
   verifyToken: function() {
     return jwt({

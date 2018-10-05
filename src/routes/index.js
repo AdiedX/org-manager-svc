@@ -9,6 +9,7 @@ const organizationPOSTController = require('../controllers/organizationPOSTContr
 const organizationPUTController = require('../controllers/organizationPUTController');
 const organizationDELETEController = require('../controllers/organizationDELETEController');
 
+// Secure all endpoints
 router.all('*', authController.verifyToken());
 
 /**
