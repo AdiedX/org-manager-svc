@@ -13,7 +13,6 @@ const logger = require('../utils/logger');
 
 let sequelize;
 if (env === 'production') {
-  logger.info(process.env);
   sequelize = new Sequelize(config.database, config.username, config.password, config);
 } else if (env === 'development') {
   const localCreds = require('../config/local.config.json').credentials;

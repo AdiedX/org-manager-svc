@@ -6,18 +6,23 @@ const logger = require('../utils/logger');
 module.exports = {
   persistOrg: async function(orgData) {
     try {
-      const count = await models.Organization.count({
+      const countName = await models.Organization.count({
         where: {
-          name: orgData.name,
+          name: orgData.name
+        }
+      });
+
+      const countCode = await models.Organization.count({
+        where: {
           code: orgData.code
         }
       });
 
-      if (count > 0) {
-        logger.error('Org with specified name/code combo already exists');
+      if (countName > 0 || countCode > 0) {
+        logger.error('Org with specified name or code already exists');
         return {
           persisted: false,
-          error: 'Org with specified name/code combo already exists'
+          error: 'Org with specified name or code already exists'
         };
       } else {
         await models.Organization.create({
@@ -28,7 +33,7 @@ module.exports = {
           type: orgData.type
         });
   
-        logger.info('Org created');
+        logger.info('[POST] Org created');
         return {
           persisted: true,
           error: null
@@ -78,7 +83,7 @@ module.exports = {
         where: where_clause
       });
 
-      logger.info('Org queried');
+      logger.info('[GET] Org queried');
       return org;
     } catch (error) {
       logger.error(error.message);
@@ -88,7 +93,7 @@ module.exports = {
   fetchAllOrgs: async function(orgData) {
     try {
       const orgs = await models.Organization.findAll();
-      logger.info('Orgs queried');
+      logger.info('[GET] Orgs queried');
       return orgs;
     } catch (error) {
       logger.error(error.message);
@@ -98,7 +103,7 @@ module.exports = {
   deleteOrg: async function(where_clause) {
     try {
       const org = await models.Organization.destroy(where_clause);
-      logger.info('Org deleted');
+      logger.info('[DELETE] Org deleted');
       return org;
     } catch (error) {
       logger.error(error.message);
@@ -112,7 +117,7 @@ module.exports = {
         truncate: true
       });
 
-      logger.info('Orgs deleted');
+      logger.info('[DELETED] Orgs deleted');
     } catch (error) {
       logger.error(error.message);
     }
