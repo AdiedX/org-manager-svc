@@ -28,7 +28,7 @@ router.put(constants.API_PATH + 'organizations/c/:code', validationController.va
  * HTTP GET
  * Get all orgs
  */
-router.get(constants.API_PATH + 'organizations', organizationsGETController.getAllOrgs);
+router.get(constants.API_PATH + 'organizations', authController.verifyToken(), organizationsGETController.getAllOrgs);
 
 /**
  * HTTP GET
