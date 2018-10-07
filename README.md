@@ -1,6 +1,12 @@
 # Organization Manager Service
 A simple microservice for managing information about organizations
 
+- [Local Setup](#local-setup)
+- [Service URL](#service-url)
+- [Auth](#auth)
+- [API](#api)
+- [Codebase](#codebase)
+
 ## Local Setup
 * Have Node 8 or above installed
 * NPM 5 or above
@@ -154,3 +160,55 @@ Optional keys:
 
 ### `HTTP DELETE /api/v1/organizations/n/{name}`
 *Deletes org based on name*
+
+## Codebase
+
+* **controllers/**: Route handling, caching and security logic
+* **data-access/**: ORM logic to query the database
+* **models/**: ORM models of business entities
+* **routes/**: Registration of appropriate handlers to paths
+* **migrations/**: Database migrations to be run
+* **utils/**: Helper methods and constants
+* **server.js**: Entry point to the application.
+
+### Security Middleware
+Verify access token from authorized client applications
+
+```javascript
+module.exports = {
+  verifyToken: function() {
+    return jwt({
+      secret: jwksRsa.expressJwtSecret({
+        cache: true,
+        rateLimit: true,
+        jwksRequestsPerMinute: 20,
+        jwksUri: `${process.env.AUTH_DOMAIN}.well-known/jwks.json`
+      }),
+      audience: process.env.AUTH_AUDIENCE,
+      issuer: process.env.AUTH_DOMAIN,
+      algorithms: ['RS256']
+    });
+  }
+};
+```
+
+### Caching
+Caching HTTP GET calls to increase performance using a simple node cache.
+
+```javascript
+module.exports = {
+  cache: function(cacheDuration) {
+    return function cacheMiddleware(req, res, next) {
+      const cacheKey = '__org_manager__' + req.originalUrl || url;
+      const cachedVal = global.memCache.get(cacheKey);
+      if (cachedVal) {
+        return res.status(CONST.HTTP_OK).json(cachedVal);
+      } else {
+        req.cacheKey = cacheKey;
+        req.cacheDuration = cacheDuration;
+        next();
+      }
+    }
+  }
+};
+```
