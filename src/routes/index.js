@@ -10,7 +10,7 @@ const organizationPUTController = require('../controllers/organizationPUTControl
 const organizationDELETEController = require('../controllers/organizationDELETEController');
 
 // Secure all endpoints
-router.all('*', authController.verifyToken());
+// router.all('*', authController.verifyToken());
 
 /**
  * HTTP POST
@@ -28,7 +28,7 @@ router.put(constants.API_PATH + 'organizations/c/:code', validationController.va
  * HTTP GET
  * Get all orgs
  */
-router.get(constants.API_PATH + 'organizations', authController.verifyToken(), organizationsGETController.getAllOrgs);
+router.get(constants.API_PATH + 'organizations', organizationsGETController.getAllOrgs);
 
 /**
  * HTTP GET
