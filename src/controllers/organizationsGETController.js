@@ -1,6 +1,7 @@
 'use strict';
 
 const DAO = require('../data-access/dao');
+const CONST = require('../utils/constants');
 
 module.exports = {
   getOrgByName: async function(req, res) {
@@ -11,13 +12,13 @@ module.exports = {
       org = await DAO.fetchOrg({ name: name });
 
       if (org !== null) {
-        return res.status(200).json(org);
+        return res.status(CONST.HTTP_OK).json(org);
       } else {
-        return res.status(500).json({ message: 'Org with that name does not exist' });
+        return res.status(CONST.HTTP_INTERNAL_SERVER_ERROR).json({ message: 'Org with that name does not exist' });
       }
     } catch (error) {
       logger.error(error.message);
-      return res.status(500).json({ error: 'Could not fetch org' });
+      return res.status(CONST.HTTP_INTERNAL_SERVER_ERROR).json({ error: 'Could not fetch org' });
     }
   },
 
@@ -29,13 +30,13 @@ module.exports = {
       org = await DAO.fetchOrg({ code: code });
 
       if (org !== null) {
-        return res.status(200).json(org);
+        return res.status(CONST.HTTP_OK).json(org);
       } else {
-        return res.status(500).json({ message: 'Org with that code does not exist' });  
+        return res.status(CONST.HTTP_INTERNAL_SERVER_ERROR).json({ message: 'Org with that code does not exist' });  
       }
     } catch (error) {
       logger.error(error.message);
-      return res.status(500).json({ error: 'Could not fetch org' });
+      return res.status(CONST.HTTP_INTERNAL_SERVER_ERROR).json({ error: 'Could not fetch org' });
     }
   },
 
@@ -43,13 +44,13 @@ module.exports = {
     try {
       const orgs = await DAO.fetchAllOrgs();
       if (orgs.length) {
-        return res.status(200).json(orgs);
+        return res.status(CONST.HTTP_OK).json(orgs);
       } else {
-        return res.status(404).json({ message: 'No orgs found' });
+        return res.status(CONST.HTTP_NOT_FOUND).json({ message: 'No orgs found' });
       }
     } catch (error) {
       logger.error(error.message);
-      return res.status(500).json({ error: 'Could not fetch orgs' });
+      return res.status(CONST.HTTP_INTERNAL_SERVER_ERROR).json({ error: 'Could not fetch orgs' });
     }
   }
 };

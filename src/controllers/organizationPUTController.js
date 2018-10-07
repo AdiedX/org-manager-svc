@@ -1,6 +1,7 @@
 'use strict';
 
 const DAO = require('../data-access/dao');
+const CONST = require('../utils/constants');
 
 module.exports = {
   updateOrg: async function(req, res) {
@@ -10,9 +11,9 @@ module.exports = {
     const result = await DAO.modifyOrg(orgData, code);
 
     if (result.error !== null) {
-      res.status(500).json({ message: error.message });
+      res.status(CONST.HTTP_INTERNAL_SERVER_ERROR).json({ message: error.message });
     } else {
-      res.status(200).json({ message: 'Successfully modified specified org' });
+      res.status(CONST.HTTP_OK).json({ message: 'Successfully modified specified org' });
     }
   }
 };
