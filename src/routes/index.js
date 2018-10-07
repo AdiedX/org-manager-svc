@@ -3,6 +3,7 @@
 const router = require('express').Router();
 const constants = require('../utils/constants');
 const authController = require('../controllers/authController');
+const memCacheController = require('../controllers/memCacheController');
 const validationController = require('../controllers/validationController');
 const organizationsGETController = require('../controllers/organizationsGETController');
 const organizationPOSTController = require('../controllers/organizationPOSTController');
@@ -28,19 +29,19 @@ router.put(constants.API_PATH + 'organizations/c/:code', validationController.va
  * HTTP GET
  * Get all orgs
  */
-router.get(constants.API_PATH + 'organizations', authController.verifyToken(), organizationsGETController.getAllOrgs);
+router.get(constants.API_PATH + 'organizations', memCacheController.cache(100), organizationsGETController.getAllOrgs);
 
 /**
  * HTTP GET
  * Get org based on name
  */
-router.get(constants.API_PATH + 'organizations/n/:name', organizationsGETController.getOrgByName);
+router.get(constants.API_PATH + 'organizations/n/:name', memCacheController.cache(100), organizationsGETController.getOrgByName);
 
 /**
  * HTTP GET
  * Get org based on code
  */
-router.get(constants.API_PATH + 'organizations/c/:code', organizationsGETController.getOrgByCode);
+router.get(constants.API_PATH + 'organizations/c/:code', memCacheController.cache(100), organizationsGETController.getOrgByCode);
 
 /**
  * HTTP DELETE

@@ -3,13 +3,10 @@
 const jwt = require('express-jwt');
 const jwksRsa = require('jwks-rsa');
 const logger = require('../utils/logger');
+
 /**
  * Authorization middleware
  */
-
-logger.info('issuer:', process.env.AUTH_DOMAIN);
-logger.info('audience:', process.env.AUTH_AUDIENCE);
-
 module.exports = {
   verifyToken: function() {
     return jwt({
