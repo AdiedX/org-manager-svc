@@ -12,6 +12,7 @@ module.exports = {
       org = await DAO.fetchOrg({ name: name });
 
       if (org !== null) {
+        global.memCache.put(req.cacheKey, org, req.cacheDuration * 1000);
         return res.status(CONST.HTTP_OK).json(org);
       } else {
         return res.status(CONST.HTTP_INTERNAL_SERVER_ERROR).json({ message: 'Org with that name does not exist' });
@@ -30,6 +31,7 @@ module.exports = {
       org = await DAO.fetchOrg({ code: code });
 
       if (org !== null) {
+        global.memCache.put(req.cacheKey, org, req.cacheDuration * 1000);
         return res.status(CONST.HTTP_OK).json(org);
       } else {
         return res.status(CONST.HTTP_INTERNAL_SERVER_ERROR).json({ message: 'Org with that code does not exist' });  
@@ -44,6 +46,7 @@ module.exports = {
     try {
       const orgs = await DAO.fetchAllOrgs();
       if (orgs.length) {
+        global.memCache.put(req.cacheKey, orgs, req.cacheDuration * 1000);
         return res.status(CONST.HTTP_OK).json(orgs);
       } else {
         return res.status(CONST.HTTP_NOT_FOUND).json({ message: 'No orgs found' });
